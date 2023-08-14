@@ -4,10 +4,8 @@ const bcrypt = require('bcrypt')
 const jwt = require('jsonwebtoken');
 const dbConnection = require('../db');
 
-
-
 router.get('/users', (req, res) => {
-    const sql = 'SELECT id, username, birth_date, alamat, kontak FROM user';
+    const sql = 'SELECT id, username, birth_date, alamat, kontak FROM users';
     dbConnection.query(sql, (error, results) => {
         if (error) {
             res.status(500).json({
@@ -15,6 +13,7 @@ router.get('/users', (req, res) => {
                 error: {
                     code: 500,
                     message: 'Error fetching data from the database.',
+                    error : error.message
                 },
                 timestamp: new Date().toISOString(),
             });
@@ -29,12 +28,13 @@ router.get('/users', (req, res) => {
     });
 });
 
+//REGISTER
 router.post('/register', async (req, res) => {
     try {
         const { username, birth_date, alamat, kontak, password } = req.body;
 
         // Verify if the username is unique
-        const checkUsernameSql = 'SELECT * FROM user WHERE username = ?';
+        const checkUsernameSql = 'SELECT * FROM users WHERE username = ?';
         dbConnection.query(checkUsernameSql, [username], async (usernameError, usernameResults) => {
             if (usernameError) {
                 return res.status(500).json({
@@ -74,7 +74,7 @@ router.post('/register', async (req, res) => {
             const hashedPassword = await bcrypt.hash(password, 10);
 
             // Insert user data into the 'user' table
-            const insertUserSql = 'INSERT INTO user (username, birth_date, alamat, kontak, password) VALUES (?, ?, ?, ?, ?)';
+            const insertUserSql = 'INSERT INTO users (username, birth_date, alamat, kontak, password) VALUES (?, ?, ?, ?, ?)';
             dbConnection.query(insertUserSql, [username, birth_date, alamat, kontak, hashedPassword], (error, results) => {
                 if (error) {
                     res.status(500).json({
@@ -116,11 +116,13 @@ router.post('/register', async (req, res) => {
     }
 });
 
+
+//LOGIN
 router.post('/login', async (req, res) => {
     const { username, password } = req.body;
 
     // Query the database to find the user based on the username
-    const getUserSql = 'SELECT * FROM user WHERE username = ?';
+    const getUserSql = 'SELECT * FROM users WHERE username = ?';
     dbConnection.query(getUserSql, [username], async (error, results) => {
         if (error) {
             return res.status(500).json({
@@ -157,8 +159,8 @@ router.post('/login', async (req, res) => {
 
                 return res.json({
                     status: 'success',
-                    token,
                     message: 'Authentication successful.',
+                    token,
                     timestamp: new Date().toISOString(),
                 });
             } else { //password salah
@@ -183,8 +185,5 @@ router.post('/login', async (req, res) => {
         }
     });
 });
-
-
-
 
 module.exports = router;
