@@ -159,6 +159,7 @@ router.post('/login', async (req, res) => {
 
                 return res.json({
                     status: 'success',
+                    username : username,
                     message: 'Authentication successful.',
                     token,
                     timestamp: new Date().toISOString(),
