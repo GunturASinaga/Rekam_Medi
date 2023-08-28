@@ -29,6 +29,80 @@ router.get('/', authenticateToken, (req, res) => {
     });
 });
 
+//GET
+router.get('/id/:id', authenticateToken, (req, res) => {
+    const id = req.user.userId;
+    const penyakit_id = req.params.id;
+    const sql = "SELECT * FROM penyakit where user_id = ? and id = ?"
+    dbConnection.query(sql, [id, penyakit_id], (error, results) => {
+        if (error) {
+            res.status(500).json({
+                status: 'error',
+                error: {
+                    code: 500,
+                    message: 'Error fetching data from the database.',
+                    error : error.message
+                },
+                timestamp: new Date().toISOString(),
+            });
+        } else {
+            res.json({
+                status: 'success',
+                data: results,
+                message: 'User data retrieved successfully.',
+                timestamp: new Date().toISOString(),
+            });
+        }
+    });
+});
+
+router.get('/lengkap', authenticateToken, (req, res) => {
+    const id = req.user.userId;
+    const sql = "SELECT * FROM penyakit WHERE user_id = ?";
+    dbConnection.query(sql, [id], (error, penyakitResults) => {
+        if (error) {
+            res.status(500).json({
+                status: 'error',
+                error: {
+                    code: 500,
+                    message: 'Error fetching data from the database.',
+                },
+                timestamp: new Date().toISOString(),
+            });
+        } else {
+            const penyakits = [];
+            penyakitResults.forEach(penyakit => {
+                const penyakitData = {
+                    id: penyakit.id,
+                    nama: penyakit.nama,
+                    gejala: penyakit.gejala,
+                    tanggal_mulai: penyakit.tanggal_mulai,
+                    tanggal_selesai: penyakit.tanggal_selesai,
+                    tindakan_medis: penyakit.tindakan_medis,
+                    hasil: penyakit.hasil,
+                    obat: [] // Initialize empty array for obat
+                };
+                const obatSql = "SELECT * FROM obat WHERE penyakit_id = ?";
+                dbConnection.query(obatSql, [penyakit.id], (obatError, obatResults) => {
+                    if (!obatError) {
+                        penyakitData.obat = obatResults;
+                    }
+                    penyakits.push(penyakitData);
+                    if (penyakits.length === penyakitResults.length) {
+                        res.json({
+                            status: 'success',
+                            data: penyakits,
+                            message: 'User data retrieved successfully.',
+                            timestamp: new Date().toISOString(),
+                        });
+                    }
+                });
+            });
+        }
+    });
+});
+
+
 
 // POST
 router.post('/', authenticateToken, (req, res) => {
@@ -36,7 +110,7 @@ router.post('/', authenticateToken, (req, res) => {
     const { nama, gejala, tanggal_mulai, tanggal_selesai, tindakan_medis, hasil } = req.body;
 
     // Input validation
-    if (!nama || !user_id || !gejala || !tanggal_mulai || !tindakan_medis || !hasil) {
+    if (!nama || !user_id || !gejala || !tanggal_mulai || !tindakan_medis ) {
         return res.status(400).json({
             status: 'error',
             error: {

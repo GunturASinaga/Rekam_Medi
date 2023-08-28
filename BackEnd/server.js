@@ -17,48 +17,51 @@ app.use('/penyakit', dataPenyakit)
 app.use('/obat', dataObat)
 app.use('/alergi', dataAlergi)
 
+
 //GET
 app.get('/', authenticateToken, (req, res) => {
-  const id = req.user.userId;
-
-  const sqlPenyakit = "SELECT * FROM penyakit where user_id = ?";
-  const sqlAlergi = "SELECT * FROM alergi where user_id = ?";
-
-  dbConnection.query(sqlPenyakit, [id], (error, penyakitResults) => {
-      if (error) {
-          return res.status(500).json({
-              status: 'error',
-              error: {
-                  code: 500,
-                  message: 'Error fetching data from the database.',
-              },
-              timestamp: new Date().toISOString(),
-          });
-      }
-
-      // Execute the query to fetch alergi data
-      dbConnection.query(sqlAlergi, [id], (alergiError, alergiResults) => {
-          if (alergiError) {
-              return res.status(500).json({
-                  status: 'error',
-                  error: {
-                      code: 500,
-                      message: 'Error fetching alergi data from the database.',
-                  },
-                  timestamp: new Date().toISOString(),
-              });
-          }
-
-          res.json({
-              status: 'success',
-              penyakit: penyakitResults,
-              alergi: alergiResults,
-              message: 'User data retrieved successfully.',
-              timestamp: new Date().toISOString(),
-          });
-      });
+    const id = req.user.userId;
+  
+    const sqlPenyakit = "SELECT * FROM penyakit where user_id = ?";
+    const sqlAlergi = "SELECT * FROM alergi where user_id = ?";
+  
+    dbConnection.query(sqlPenyakit, [id], (error, penyakitResults) => {
+        if (error) {
+            return res.status(500).json({
+                status: 'error',
+                error: {
+                    code: 500,
+                    message: 'Error fetching data from the database.',
+                },
+                timestamp: new Date().toISOString(),
+            });
+        }
+  
+        // Execute the query to fetch alergi data
+        dbConnection.query(sqlAlergi, [id], (alergiError, alergiResults) => {
+            if (alergiError) {
+                return res.status(500).json({
+                    status: 'error',
+                    error: {
+                        code: 500,
+                        message: 'Error fetching alergi data from the database.',
+                    },
+                    timestamp: new Date().toISOString(),
+                });
+            }
+  
+            res.json({
+                status: 'success',
+                penyakit: penyakitResults,
+                alergi: alergiResults,
+                message: 'User data retrieved successfully.',
+                timestamp: new Date().toISOString(),
+            });
+        });
+    });
   });
-});
+
+ 
 
 
 function authenticateToken(req, res, next) {

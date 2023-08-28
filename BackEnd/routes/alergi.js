@@ -30,6 +30,33 @@ router.get('/', authenticateToken, (req, res) => {
     });
 });
 
+router.get('/:id', authenticateToken, (req, res) => {
+    const id = req.params.id;
+    const user_id = req.user.userId;
+
+    const sql = "SELECT * FROM alergi WHERE user_id = ? and id = ?";
+    dbConnection.query(sql, [user_id, id], (error, results) => {
+        if (error) {
+            res.status(500).json({
+                status: 'error',
+                error: {
+                    code: 500,
+                    message: 'Error fetching data from the database.',
+                    error: error.message,
+                },
+                timestamp: new Date().toISOString(),
+            });
+        } else {
+            res.json({
+                status: 'success',
+                data: results,
+                message: 'User data retrieved successfully.',
+                timestamp: new Date().toISOString(),
+            });
+        }
+    });
+});
+
 // POST
 router.post('/', authenticateToken, (req, res) => {
     const user_id = req.user.userId;

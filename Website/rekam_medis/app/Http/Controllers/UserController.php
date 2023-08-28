@@ -1,5 +1,4 @@
 <?php
-
 namespace App\Http\Controllers;
 use Illuminate\Support\Facades\Http;
 
@@ -8,8 +7,6 @@ use GuzzleHttp\Client;
 
 class UserController extends Controller
 {
-
-
     public function loginSubmit(Request $request)
     {
         $username = $request->input('username');
@@ -54,8 +51,10 @@ class UserController extends Controller
             if($data['status'] == 'success'){
 
                 //perlu ada durasi di sini
+                $penyakit = $data['penyakit'];
+                $alergi = $data['alergi'];
 
-                return view('homepage')->with('username', $username)->with('alergi', $data['alergi'])->with('penyakit', $data['penyakit']);
+                return view('homepage')->with('username', $username)->with('alergi', $alergi)->with('penyakit', $penyakit);
             }
         } else{
             return view('welcome');
@@ -71,4 +70,35 @@ class UserController extends Controller
 
         return redirect('/');
     }
+
+    public function registerSubmit(Request $request)
+    {
+        $username = $request->input('username');
+        $birthDate = $request->input('birth_date');
+        $alamat = $request->input('alamat');
+        $kontak = $request->input('kontak');
+        $password = $request->input('password');
+
+        $client = new Client();
+        $response = $client->post('http://localhost:3000/auth/register', [
+            'json' => [
+                'username' => $username,
+                'birth_date' => $birthDate,
+                'alamat' => $alamat,
+                'kontak' => $kontak,
+                'password' => $password,
+            ],
+        ]);
+
+        // Process the response as needed
+        $data = json_decode($response->getBody(), true);
+
+        if($data['status'] == "success"){
+            return redirect('/login');
+        } else{
+            return redirect('/register')->with('message', "error");
+        }
+
+    }
+
 }

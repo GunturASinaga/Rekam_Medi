@@ -4,9 +4,48 @@ const bcrypt = require('bcrypt')
 const jwt = require('jsonwebtoken');
 const dbConnection = require('../db');
 
-
 //GET
 router.get('/:id', authenticateToken, (req, res) => {
+    const penyakit_id = req.params.id;
+
+    // Validate penyakit_id as an integer
+    if (!Number.isInteger(Number(penyakit_id))) {
+        return res.status(400).json({
+            status: 'error',
+            error: {
+                code: 400,
+                message: 'Invalid penyakit_id. It must be a valid integer.',
+                timestamp: new Date().toISOString(),
+            }, 
+        });
+    }
+
+    const sql = "SELECT * FROM obat WHERE penyakit_id = ?";
+
+    dbConnection.query(sql, [penyakit_id], (error, results) => {
+        if (error) {
+            res.status(500).json({
+                status: 'error',
+                error: {
+                    code: 500,
+                    message: 'Error fetching data from the database.',
+                    db_error: error.message, // Include the database error message
+                },
+                timestamp: new Date().toISOString(),
+            });
+        } else {
+            res.json({
+                status: 'success',
+                data: results,
+                message: 'Data retrieved successfully.',
+                timestamp: new Date().toISOString(),
+            });
+        }
+    });
+});
+
+//GET
+router.get('/spesifik/:id', authenticateToken, (req, res) => {
     const penyakit_id = req.params.id;
 
     // Validate penyakit_id as an integer
@@ -21,7 +60,7 @@ router.get('/:id', authenticateToken, (req, res) => {
         });
     }
 
-    const sql = "SELECT * FROM obat WHERE penyakit_id = ?";
+    const sql = "SELECT * FROM obat WHERE id = ?";
 
     dbConnection.query(sql, [penyakit_id], (error, results) => {
         if (error) {
