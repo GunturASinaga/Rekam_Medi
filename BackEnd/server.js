@@ -1,30 +1,33 @@
-const express = require('express');
+const express = require('express'); // Import framework Express
 
-const jwt = require('jsonwebtoken');
-const dbConnection = require('./db');
-const autod = require('./routes/authenticate');
-const dataRet = require('./routes/retrieveData');
-const dataPenyakit = require('./routes/penyakit');
-const dataObat = require('./routes/obat');
-const dataAlergi = require('./routes/alergi');
+const jwt = require('jsonwebtoken'); // Import JSON Web Token (JWT) library
+const dbConnection = require('./db'); // Import a database connection module
+const autod = require('./routes/authenticate'); // Import authentication routes
+const dataRet = require('./routes/retrieveData');// Import data retrieval routes    
+const dataPenyakit = require('./routes/penyakit');// Import routes for 'penyakit' data
+const dataObat = require('./routes/obat');// Import routes for 'obat' data
+const dataAlergi = require('./routes/alergi');// Import routes for 'alergi' data
 const app = express();
 app.use(express.json());
 
-//routing
-app.use('/auth', autod)
-app.use('/data', dataRet)
-app.use('/penyakit', dataPenyakit)
-app.use('/obat', dataObat)
-app.use('/alergi', dataAlergi)
-
+//routing sesuai dengan fungsinya
+app.use('/auth', autod) // routing untuk fungsi authentication
+app.use('/data', dataRet) // routing untuk fungsi mengolah data pengguna
+app.use('/penyakit', dataPenyakit) // routing untuk mengolah data penyakit
+app.use('/obat', dataObat) // routing untuk mengolah data obat
+app.use('/alergi', dataAlergi) // routing untuk mengolah data alergi
 
 //GET
+// fungsi untuk mengambil data penyakit dan data alergi dari database sesuai dengan user yang terauthentikasi berdasarkan token yang digunakan
 app.get('/', authenticateToken, (req, res) => {
     const id = req.user.userId;
   
+
+    // sql syntax untuk mengambil dari database
     const sqlPenyakit = "SELECT * FROM penyakit where user_id = ?";
     const sqlAlergi = "SELECT * FROM alergi where user_id = ?";
   
+    
     dbConnection.query(sqlPenyakit, [id], (error, penyakitResults) => {
         if (error) {
             return res.status(500).json({
@@ -61,9 +64,8 @@ app.get('/', authenticateToken, (req, res) => {
     });
   });
 
- 
 
-
+// Fungsi untuk melakukan authentikasi token yang diterima
 function authenticateToken(req, res, next) {
   const authHeader = req.headers['authorization'];
   const token = authHeader && authHeader.split(' ')[1];
@@ -90,7 +92,6 @@ function authenticateToken(req, res, next) {
               },
           });
       }
-
       req.user = user;
       next();
   });

@@ -1,3 +1,5 @@
+// merupakan file yang berfungsi untuk mengatur konfigurasi dengan database
+
 const mysql = require('mysql2');
 
 // Replace the placeholders with your MySQL database credentials

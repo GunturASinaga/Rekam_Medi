@@ -1,10 +1,10 @@
-const express = require('express');
-const router = express.Router();
-const jwt = require('jsonwebtoken');
-const dbConnection = require('../db');
-
+const express = require('express'); // import Framework Express
+const router = express.Router(); // membuatn instances dari Express router
+const jwt = require('jsonwebtoken'); // Import JSON Web Token(JWT Library)
+const dbConnection = require('../db'); //  Import module untuk koneksi database
 
 //GET
+// Fungsi untuk melakukan authentikasi token yang diterima
 router.get('/', authenticateToken, (req, res) => {
     const id = req.user.userId;
     const sql = "SELECT * FROM penyakit where user_id = ?"
@@ -30,6 +30,7 @@ router.get('/', authenticateToken, (req, res) => {
 });
 
 //GET
+// Fungsi untuk mendapatkan data penyakit spesifik dari sebuah user
 router.get('/id/:id', authenticateToken, (req, res) => {
     const id = req.user.userId;
     const penyakit_id = req.params.id;
@@ -56,6 +57,8 @@ router.get('/id/:id', authenticateToken, (req, res) => {
     });
 });
 
+
+// fungsi untuk mendapatkan semua informasi lengkap mengenai penyakti dan juga obat yang digunakan selama penggunaannya
 router.get('/lengkap', authenticateToken, (req, res) => {
     const id = req.user.userId;
     const sql = "SELECT * FROM penyakit WHERE user_id = ?";
@@ -102,9 +105,8 @@ router.get('/lengkap', authenticateToken, (req, res) => {
     });
 });
 
-
-
 // POST
+// Fungsi yang diguankan untuk menambah data penyakit, mengunakan authentication juga
 router.post('/', authenticateToken, (req, res) => {
     const user_id = req.user.userId;
     const { nama, gejala, tanggal_mulai, tanggal_selesai, tindakan_medis, hasil } = req.body;
@@ -177,6 +179,7 @@ router.post('/', authenticateToken, (req, res) => {
 });
 
 //PUT
+// fungsi untuk mengedit data penyakit
 router.put('/:id', authenticateToken, (req, res) => {
     const user_id = req.user.userId;
     const id = req.params.id;
@@ -216,6 +219,7 @@ router.put('/:id', authenticateToken, (req, res) => {
 });
 
 //DELETE
+// fungsi untuk menghapus data penyakit
 router.delete('/:id', authenticateToken, (req, res) => {
     const user_id = req.user.userId;
     const id = req.params.id;
@@ -271,9 +275,7 @@ router.delete('/:id', authenticateToken, (req, res) => {
 });
 
 
-
-
-
+// Fungsi untuk melakukan authentikasi token yang diterima
 function authenticateToken(req, res, next) {
     const authHeader = req.headers['authorization'];
     const token = authHeader && authHeader.split(' ')[1];

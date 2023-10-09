@@ -4,6 +4,7 @@ const jwt = require('jsonwebtoken');
 const dbConnection = require('../db');
 
 // GET
+// fungsi untuk mengakses data alergi seorang user
 router.get('/', authenticateToken, (req, res) => {
     const user_id = req.user.userId;
 
@@ -30,6 +31,8 @@ router.get('/', authenticateToken, (req, res) => {
     });
 });
 
+
+// fungsi yang digunakan untuk mengakses alergi tertentu
 router.get('/:id', authenticateToken, (req, res) => {
     const id = req.params.id;
     const user_id = req.user.userId;
@@ -58,6 +61,7 @@ router.get('/:id', authenticateToken, (req, res) => {
 });
 
 // POST
+// fungsi untuk menambahkan alergi
 router.post('/', authenticateToken, (req, res) => {
     const user_id = req.user.userId;
     const { nama } = req.body;
@@ -98,6 +102,7 @@ router.post('/', authenticateToken, (req, res) => {
 });
 
 // PUT
+// fungsi untuk mengupdate data alergi seorang user
 router.put('/:id', authenticateToken, (req, res) => {
     const user_id = req.user.userId;
     const id = req.params.id;
@@ -137,6 +142,7 @@ router.put('/:id', authenticateToken, (req, res) => {
 });
 
 // DELETE
+// fungsi yang digunakan untuk menghapus data alergi user
 router.delete('/:id', authenticateToken, (req, res) => {
     const user_id = req.user.userId;
     const id = req.params.id;

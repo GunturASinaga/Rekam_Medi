@@ -4,6 +4,7 @@ const bcrypt = require('bcrypt')
 const jwt = require('jsonwebtoken');
 const dbConnection = require('../db');
 
+// untuk mendapatkan semua infomrasi user
 router.get('/users', (req, res) => {
     const sql = 'SELECT id, username, birth_date, alamat, kontak FROM users';
     dbConnection.query(sql, (error, results) => {
@@ -29,6 +30,7 @@ router.get('/users', (req, res) => {
 });
 
 //REGISTER
+// fungsi untuk mendaftarkan user ke database
 router.post('/register', async (req, res) => {
     try {
         const { username, birth_date, alamat, kontak, password } = req.body;
@@ -118,6 +120,7 @@ router.post('/register', async (req, res) => {
 
 
 //LOGIN
+// fungsi untuk login user
 router.post('/login', async (req, res) => {
     const { username, password } = req.body;
 

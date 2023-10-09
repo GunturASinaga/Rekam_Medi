@@ -15,6 +15,7 @@ router.post('/coba', authenticateToken, (req, res) => {
 });
 
 
+// merupakan fungsi untuk mengautentifiikasi token yang diterima
 function authenticateToken(req, res, next) {
     const authHeader = req.headers['authorization'];
     const token = authHeader && authHeader.split(' ')[1];

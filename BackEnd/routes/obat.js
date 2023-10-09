@@ -5,6 +5,7 @@ const jwt = require('jsonwebtoken');
 const dbConnection = require('../db');
 
 //GET
+// fungsi untuk mendapatkan obat yang digunakan pada saat penanganan penyakit tertentu
 router.get('/:id', authenticateToken, (req, res) => {
     const penyakit_id = req.params.id;
 
@@ -45,6 +46,7 @@ router.get('/:id', authenticateToken, (req, res) => {
 });
 
 //GET
+// mendapatkan obat dengan id spesifik
 router.get('/spesifik/:id', authenticateToken, (req, res) => {
     const penyakit_id = req.params.id;
 
@@ -85,6 +87,7 @@ router.get('/spesifik/:id', authenticateToken, (req, res) => {
 });
 
 // POST
+// menambahkan obat ke data sebuah penyakit
 router.post('/:id', authenticateToken, (req, res) => {
     const penyakit_id = req.params.id;
     const nama_obat = req.body.nama_obat;
@@ -125,6 +128,7 @@ router.post('/:id', authenticateToken, (req, res) => {
 });
 
 // PUT
+// mengubah data obat pada id tertentu
 router.put('/:id', authenticateToken, (req, res) => {
     const obat_id = req.params.id;
     const nama_obat = req.body.nama_obat;
@@ -170,6 +174,7 @@ router.put('/:id', authenticateToken, (req, res) => {
 });
 
 //DELETE
+// fungsi untuk menghapus data obat
 router.delete('/:id', authenticateToken, (req, res) => {
     const obat_id = req.params.id;
 
@@ -220,6 +225,7 @@ router.delete('/:id', authenticateToken, (req, res) => {
 });
 
 
+// fungsi untuk mengautentifikasi token yang diterima
 function authenticateToken(req, res, next) {
     const authHeader = req.headers['authorization'];
     const token = authHeader && authHeader.split(' ')[1];
