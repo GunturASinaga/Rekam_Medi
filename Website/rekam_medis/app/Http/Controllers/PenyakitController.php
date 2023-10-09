@@ -1,15 +1,14 @@
 <?php
-
+// fungsi untuk mengatur views dari obat, serta mengatur data penampilan, mengedit, hapus, dan juga tambah data penyakit
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Http;
 use GuzzleHttp\Client;
 
-
 class PenyakitController extends Controller
 {
-    public function penyakit(){
+    public function penyakit(){ // fungsi untuk mengatur view untuk penyakit dan menampilkan data
         $token = session('api_token');
         $username = session('user');
 
@@ -24,7 +23,6 @@ class PenyakitController extends Controller
             $data = json_decode($response->getBody(), true);
             if($data['status'] == 'success'){
 
-                //perlu ada durasi di sini
                 $penyakit = $data['data'];
 
                 return view('penyakit')->with('username', $username)->with('penyakit', $penyakit);
@@ -34,7 +32,7 @@ class PenyakitController extends Controller
         }
     }
 
-    public function editPenyakit($id){
+    public function editPenyakit($id){ // fungsi untuk menampilakn view untuk melakukan pengeditan data
         $token = session('api_token');
         $username = session('user');
         $client = new Client();
@@ -50,7 +48,7 @@ class PenyakitController extends Controller
         return view('editPenyakit')->with('penyakit', $penyakit)->with('username', $username);
     }
 
-    public function editPenyakitProcess(Request $request){
+    public function editPenyakitProcess(Request $request){ // fungsi untuk memproses pengeditan data
         $token = session('api_token');
         $client = new Client();
 
@@ -80,12 +78,12 @@ class PenyakitController extends Controller
     }
 
 
-    public function tambahPenyakit(){
+    public function tambahPenyakit(){ // fungsi untuk mengatur view untuk menambahkan data
         $username = session('user');
         return view('tambahPenyakit')->with('username', $username);
     }
 
-    public function tambahPenyakitProcess(Request $request){
+    public function tambahPenyakitProcess(Request $request){ // fungsi untuk meproses penambahan data
         $token = session('api_token');
         $client = new Client();
 
@@ -112,7 +110,7 @@ class PenyakitController extends Controller
     }
 
 
-    public function hapusPenyakit($id){
+    public function hapusPenyakit($id){ // fungsi untuk menghapus penyakit
         $token = session('api_token');
         $client = new Client();
         $response = $client->delete("http://localhost:3000/penyakit/$id", [

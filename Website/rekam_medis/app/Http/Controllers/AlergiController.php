@@ -1,5 +1,5 @@
 <?php
-
+// Alergi Controller bertanggungjawab dalam memanagement data dari alergi, seperti menampilkan tampilan, menambah, edit, dan hapus
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
@@ -8,7 +8,7 @@ use GuzzleHttp\Client;
 
 class AlergiController extends Controller
 {
-    public function alergi(){
+    public function alergi(){ // fungsi untuk menampilkan data alergi dan menentukan view yang ditampilkan
         $token = session('api_token');
         $username = session('user');
         $client = new Client();
@@ -26,6 +26,7 @@ class AlergiController extends Controller
         }
     }
 
+    // fungsi untuk melakukan edit sesuai dengan id
     public function alergiEdit($id){
         $token = session('api_token');
         $username = session('user');
@@ -48,7 +49,7 @@ class AlergiController extends Controller
         }
     }
 
-    public function alergiHapus($id){
+    public function alergiHapus($id){ // fungsi untuk menghapus data penyakit sesuai dengan id
         $token = session('api_token');
         $username = session('user');
         $client = new Client();
@@ -60,7 +61,7 @@ class AlergiController extends Controller
         return redirect('/alergi');
     }
 
-    public function alergiEditProcess(Request $request){
+    public function alergiEditProcess(Request $request){ // fungsi untuk melanjjutkan proses edit penyakit
         $token = session('api_token');
         $client = new Client();
         $id = $request -> input('id');
@@ -76,11 +77,11 @@ class AlergiController extends Controller
         return redirect('/alergi');
     }
 
-    public function tambahAlergi(){
+    public function tambahAlergi(){ // fungsi untuk menampilkan tampilan menambah penyakit
         return view('tambahAlergi');
     }
 
-    public function alergiTambahProcess(Request $request){
+    public function alergiTambahProcess(Request $request){ // fungsi untuk memproses data yang telah diterima dan melanjutkan proses penambahan penyakit
         $token = session('api_token');
         $client = new Client();
 

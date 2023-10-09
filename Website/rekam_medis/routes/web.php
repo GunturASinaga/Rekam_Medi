@@ -7,43 +7,46 @@ use App\Http\Controllers\AlergiController;
 use App\Http\Controllers\ObatController;
 
 
-// homepage
+//ROUTING
+
+// homepage route
 Route::get('/', [UserController::class, 'homepage']);
 
+// Merupakan route untuk mendapatkan data user
 Route::get('/user', [UserController::class, 'getData']);
 
-//LOGIN
-Route::post('/login', [UserController::class, 'loginSubmit'])->name('login.submit');
-Route::get('/login', function () {return view('login');});
+//LOGIN ROUTE
+Route::post('/login', [UserController::class, 'loginSubmit'])->name('login.submit'); // tampilan dari login
+Route::get('/login', function () {return view('login');}); // proses login
 
-//REGISTER
-Route::get('/register', function () {return view('register')->with('message', "process");});
-Route::post('/registerSubmit', [UserController::class, 'registerSubmit']);
+//REGISTER ROUTE
+Route::get('/register', function () {return view('register')->with('message', "process");}); // tampilan dari registe
+Route::post('/registerSubmit', [UserController::class, 'registerSubmit']); // proses register
 
-//LogOut
+//LOGOUT ROUTE
 Route::get('/logout', [UserController::class, 'logout']);
 
-//Alergi
-Route::get('/alergi', [AlergiController::class, 'alergi']);
-Route::get('/alergiEdit/{id}', [AlergiController::class, 'alergiEdit']);
-Route::put('/alergiEditProcess', [AlergiController::class, 'alergiEditProcess']);
-Route::get('tambahAlergi', [AlergiController::class, 'tambahAlergi']);
-Route::post('/alergiTambahProcess', [AlergiController::class, 'alergiTambahProcess']);
-Route::get('/alergiHapus/{id}', [AlergiController::class, 'alergiHapus']);
+//ALERGI ROUTE
+Route::get('/alergi', [AlergiController::class, 'alergi']); // tampilan dari data data alergi
+Route::get('/alergiEdit/{id}', [AlergiController::class, 'alergiEdit']); // melakuan edit erhadp id yang diterima
+Route::put('/alergiEditProcess', [AlergiController::class, 'alergiEditProcess']); // melakukan proses edit terhadap alergi
+Route::get('tambahAlergi', [AlergiController::class, 'tambahAlergi']); // menampilkan tampilan untuk menambah alergi
+Route::post('/alergiTambahProcess', [AlergiController::class, 'alergiTambahProcess']); // memberikan tampilan untuk menambahkan alergi
+Route::get('/alergiHapus/{id}', [AlergiController::class, 'alergiHapus']); // melakukan proses penhapusan alergi
 
-//Penyakit
-Route::get('/penyakit', [PenyakitController::class, 'penyakit']);
-Route::get('/editPenyakit', [PenyakitController::class, 'editPenyakit']);
-Route::get('/tambahPenyakit', [PenyakitController::class, 'tambahPenyakit']);
-Route::post('/tambahPenyakitProcess', [PenyakitController::class, 'tambahPenyakitProcess']);
-Route::get('/hapusPenyakit/{id}', [PenyakitController::class, 'hapusPenyakit']);
-Route::get('/editPenyakit/{id}', [PenyakitController::class, 'editPenyakit']);
-Route::post('/editPenyakitProcess', [PenyakitController::class, 'editPenyakitProcess']);
+//PENYAKIT ALERGI
+Route::get('/penyakit', [PenyakitController::class, 'penyakit']); // menampilkan penyakit dan informasi terkait
+Route::get('/editPenyakit', [PenyakitController::class, 'editPenyakit']); // menampilkan tampilan edit penyakit dan data yang akan di edit
+Route::get('/tambahPenyakit', [PenyakitController::class, 'tambahPenyakit']); // menampilkan tampilan untuk menambah penyakit
+Route::post('/tambahPenyakitProcess', [PenyakitController::class, 'tambahPenyakitProcess']); // melakukan proses penambahan penyakit
+Route::get('/hapusPenyakit/{id}', [PenyakitController::class, 'hapusPenyakit']); // menghapus data penyakit
+Route::get('/editPenyakit/{id}', [PenyakitController::class, 'editPenyakit']); // menamilkan tampilan edit penyakit dan data yang akan diedit
+Route::post('/editPenyakitProcess', [PenyakitController::class, 'editPenyakitProcess']); // melakukan proses untuk pengeditan penyakit
 
 //obat
-Route::get('/editObat/{id}', [ObatController::class, 'editObat']);
-Route::post('/updateObat/{id}', [ObatController::class, 'updateObat']);
-Route::get('/tambahObat/{id}', [ObatController::class, 'tambahObat']);
-Route::post('/tambahObatProcess/{id}', [ObatController::class, 'tambahObatProcess']);
-Route::get('/hapusObat/{id}', [ObatController::class, 'hapusObat']);
+Route::get('/editObat/{id}', [ObatController::class, 'editObat']); // menampilkan menu untuk mengendit penyakit dan data-data yang akan diedit
+Route::post('/updateObat/{id}', [ObatController::class, 'updateObat']); // melakukan update terhadap data obat yang dgiunakan
+Route::get('/tambahObat/{id}', [ObatController::class, 'tambahObat']); // menampilkan menu untuk menambah obat
+Route::post('/tambahObatProcess/{id}', [ObatController::class, 'tambahObatProcess']); // memproses penambahan obat
+Route::get('/hapusObat/{id}', [ObatController::class, 'hapusObat']); // menghapus data obat tertentu di database
 

@@ -1,4 +1,5 @@
 <?php
+// Usercontroller berfungsi untuk mengatur proses authentikasi dan registrasi dari user
 namespace App\Http\Controllers;
 use Illuminate\Support\Facades\Http;
 
@@ -7,7 +8,7 @@ use GuzzleHttp\Client;
 
 class UserController extends Controller
 {
-    public function loginSubmit(Request $request)
+    public function loginSubmit(Request $request) // fungsi untuk melakukan proses sumbmit, dan ketika berhasil akan mengarahkan ke homepage
     {
         $username = $request->input('username');
         $password = $request->input('password');
@@ -35,7 +36,7 @@ class UserController extends Controller
         return redirect('/');
     }
 
-    public function homePage(){
+    public function homePage(){ // fungsi homepage setelah login berhasil
         $token = session('api_token');
         $username = session('user');
 
@@ -61,7 +62,7 @@ class UserController extends Controller
         }
     }
 
-    public function logout(){
+    public function logout(){ // fungsi untuk logout pengguna
          // Remove the token from the session
         session()->forget('api_token');
 
@@ -71,7 +72,7 @@ class UserController extends Controller
         return redirect('/');
     }
 
-    public function registerSubmit(Request $request)
+    public function registerSubmit(Request $request) // fungsi untuk melaukan proses register
     {
         $username = $request->input('username');
         $birthDate = $request->input('birth_date');
