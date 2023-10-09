@@ -1,66 +1,64 @@
-Sistem Rekam Medis
+# Sistem Rekam Medis
 
-    Guntur Augustin Sinaga
+> Guntur Augustin Sinaga
 
 Saya dengan senang hati memperkenalkan proyek Sistem Rekam Medis yang telah saya kerjakan selama masa Kerja Praktik di SDI. Proyek ini bertujuan untuk mengembangkan sebuah platform rekam medis digital yang komprehensif. Rekam medis merupakan dokumen yang berisi informasi mendalam mengenai riwayat kesehatan individu, termasuk identifikasi pasien, riwayat medis, serta riwayat perawatan yang telah diberikan.
-Rincian Proyek
 
-    Back-End API
-        Back-End API berfungsi sebagai jembatan komunikasi antara aplikasi dan website dengan basis data rekam medis. Ini memungkinkan penggunaan API untuk mengakses dan memanipulasi data secara efisien.
+### Rincian Proyek
 
-    Website Rekam Medis
-        Website ini dirancang dengan antarmuka yang ramah pengguna untuk menampilkan informasi rekam medis. Pengguna dapat dengan mudah mengakses dan mengedit rekam medis mereka melalui platform ini.
+1. **Back-End API**
+   - Back-End API berfungsi sebagai jembatan komunikasi antara aplikasi dan website dengan basis data rekam medis. Ini memungkinkan penggunaan API untuk mengakses dan memanipulasi data secara efisien.
 
-    Aplikasi Mobile
-        Aplikasi mobile ini akan tersedia untuk perangkat Android. Ini memungkinkan pengguna untuk dengan cepat dan mudah mengakses rekam medis mereka melalui perangkat seluler mereka.
+2. **Website Rekam Medis**
+   - Website ini dirancang dengan antarmuka yang ramah pengguna untuk menampilkan informasi rekam medis. Pengguna dapat dengan mudah mengakses dan mengedit rekam medis mereka melalui platform ini.
 
-Panduan Instalasi
-Back-End
+3. **Aplikasi Mobile**
+   - Aplikasi mobile ini akan tersedia untuk perangkat Android. Ini memungkinkan pengguna untuk dengan cepat dan mudah mengakses rekam medis mereka melalui perangkat seluler mereka.
 
-Spesifikasi:
+### Panduan Instalasi
 
-    Node.js
-    Express.js
-    XAMPP
+#### Back-End
 
-Langkah Instalasi:
+**Spesifikasi:**
+1. Node.js
+2. Express.js
+3. XAMPP
 
-    Pasang XAMPP.
-    Buka SQL dan impor rekam_medis.sql sebagai basis data.
-    Buka file server.js.
-    Buka Command Prompt di folder back-end.
-    Jalankan server dengan menggunakan perintah:
+**Langkah Instalasi:**
+1. Pasang XAMPP.
+2. Buka SQL dan impor rekam_medis.sql sebagai basis data.
+3. Buka file server.js.
+4. Buka Command Prompt di folder back-end.
+5. Jalankan server dengan menggunakan perintah:
 
-shell
-
+```shell
 node server.js
+```
 
-Website
+#### Website
 
-Spesifikasi:
+**Spesifikasi:**
+1. Laravel 8.x
 
-    Laravel 8.x
+**Langkah Menjalankan:**
+1. Buka Command Prompt di folder proyek.
+2. Ketik perintah berikut:
 
-Langkah Menjalankan:
-
-    Buka Command Prompt di folder proyek.
-    Ketik perintah berikut:
-
-shell
-
+```shell
 php artisan serve
+```
 
-Aplikasi Android
+#### Aplikasi Android
 
-Spesifikasi:
+**Spesifikasi:**
+1. Android Studio Flamingo
+2. Kotlin 1.7.20
+3. Java 18
 
-    Android Studio Flamingo
-    Kotlin 1.7.20
-    Java 18
+**Cara Menjalankan:**
+1. Buka Android Studio.
+2. Buka proyek dengan Android Studio.
+3. Tunggu hingga semua sumber daya terunduh.
+4. Jalankan aplikasi menggunakan emulator atau perangkat nyata.
 
-Cara Menjalankan:
-
-    Buka Android Studio.
-    Buka proyek dengan Android Studio.
-    Tunggu hingga semua sumber daya terunduh.
-    Jalankan aplikasi menggunakan emulator atau perangkat nyata.
+Dengan proyek Sistem Rekam Medis ini, kami berharap dapat memberikan solusi yang efisien dan modern dalam pengelolaan informasi kesehatan pasien, yang akan sangat mendukung para profesional medis dalam memberikan perawatan terbaik kepada pasien mereka.
